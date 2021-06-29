@@ -25,7 +25,7 @@ div,h1,h2,h3,h4,h5,h6,header,html,i,img,label,li,nav,p,small,span,ul{
 
 html{
   font-family: 'PKMN RBYGSC';
-  font-size:11px;
+  font-size:18px;
 }
 
 @-webkit-keyframes fadeIn{

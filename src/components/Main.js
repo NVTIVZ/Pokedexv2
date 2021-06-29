@@ -138,7 +138,7 @@ const Container = styled.div`
 const SearchBar = styled.div`
   display: flex;
   justify-content: center;
-  font-size: 14px;
+  font-size: 20px;
   align-items: center;
 `;
 
@@ -151,8 +151,8 @@ const List = styled.div`
 const Card = styled.div`
   display: flex;
   flex-direction: column;
-  height: 250px;
-  width: 150px;
+  height: 350px;
+  width: 250px;
   margin: 25px;
   border-radius: 25px;
   background: rgba(${(props) => typeSwitch(props.color)}, 0.3);
@@ -163,7 +163,7 @@ const Card = styled.div`
     display: flex;
     margin-left: auto;
     margin-right: auto;
-    width: 128px;
+    width: 196px;
     padding-top: 20px;
   }
   span {
@@ -171,7 +171,7 @@ const Card = styled.div`
     align-items: flex-end;
     justify-content: center;
     padding-top: 15px;
-    font-size: 15px;
+    font-size: 20px;
     font-weight: 600;
   }
 
@@ -242,15 +242,15 @@ const Type = styled.div`
   background: rgba(${(props) => typeSwitch(props.color)}, 1);
   border-radius: 5px;
   margin-right: 5px;
-  width: 70px;
-  height: 25px;
+  width: 120px;
+  height: 35px;
 `;
 
 const PokemonContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  width: 600px;
-  height: 400px;
+  width: 900px;
+  height: 600px;
   background: rgba(${(props) => typeSwitch(props.color)}, 0.4);
   margin: auto;
   margin-top: 30px;
@@ -259,7 +259,7 @@ const PokemonContainer = styled.div`
   animation: fadeIn 0.5s;
   button {
     position: absolute;
-    margin-left: 550px;
+    margin-left: 850px;
     border: none;
     background: transparent;
   }
@@ -278,19 +278,19 @@ const PokemonLeft = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  border-right: solid black 1px;
-  font-size: 15px;
+  border-right: solid rgba(0, 0, 0, 0.4) 3px;
+  font-size: 20px;
   img {
     margin-top: 60px;
-    width: 128px;
-    height: 128px;
+    width: 196px;
+    height: 196px;
   }
   span {
     margin-top: 40px;
     font-weight: 600;
   }
   div {
-    margin-top: 10px;
+    margin-top: 20px;
   }
   @media (max-width: 768px) {
     border: none;
@@ -303,20 +303,20 @@ const PokemonMiddle = styled.div`
 
   margin-left: 5px;
   margin-right: 5px;
-  font-size: 18px;
+  font-size: 22px;
   div {
     margin-top: 3px;
     margin-bottom: 20px;
-    font-size: 14px;
+    font-size: 20px;
   }
 `;
 const PokemonRight = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  font-size: 14px;
+  font-size: 22px;
   p {
-    font-size: 18px;
+    font-size: 26px;
   }
 `;
 export default Main;
