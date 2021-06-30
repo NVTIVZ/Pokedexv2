@@ -1,12 +1,38 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import _ from 'lodash';
+import PokemonCard from './PokemonCard';
+import TypeSwitch from '../utils/TypeSwitch';
+import {
+  fetchPokemons,
+  fetchDetailedPokemon,
+  clearDetailed,
+} from '../app/pokeSlice';
+
 const Main = () => {
   const [searchText, setSearchText] = useState('');
   const [showDetailed, setShowDetailed] = useState(false);
   const [activePokemon, setActivePokemon] = useState('');
+  const [offsets, setOffsets] = useState({
+    offset: 0,
+    limit: 151,
+  });
+  console.log(offsets);
   const poke = useSelector((state) => state.poke);
+  const dispatch = useDispatch();
+
+  const fetchBasedOnOffset = () => {
+    dispatch(clearDetailed());
+    dispatch(fetchPokemons(offsets)).then((res) => {
+      res.payload.forEach((x) => dispatch(fetchDetailedPokemon(x.name)));
+    });
+  };
+  useEffect(() => {
+    fetchBasedOnOffset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offsets]);
+
   const renderList = (array) => {
     return array.map((poke) => {
       return (
@@ -14,7 +40,7 @@ const Main = () => {
           key={poke.name}
           color={poke.types[0].type.name}
           onClick={() => {
-            setActivePokemon(poke.name);
+            setActivePokemon(poke.id);
             setShowDetailed(true);
           }}
         >
@@ -34,16 +60,20 @@ const Main = () => {
   };
 
   const RenderDefault = () => {
-    if (poke.detailedPokemon[150]) {
-      const sorted = poke.detailedPokemon.slice().sort((a, b) => a.id - b.id);
+    if (poke.detailedPokemonList[offsets.limit - 1]) {
+      const sorted = poke.detailedPokemonList
+        .slice()
+        .sort((a, b) => a.id - b.id);
       return renderList(sorted);
     }
     return <div>Loading</div>;
   };
 
   const RenderSearch = () => {
-    if (poke.detailedPokemon[150]) {
-      const sorted = poke.detailedPokemon.slice().sort((a, b) => a.id - b.id);
+    if (poke.detailedPokemonList[offsets.limit - 1]) {
+      const sorted = poke.detailedPokemonList
+        .slice()
+        .sort((a, b) => a.id - b.id);
       const filtered = sorted.filter((poke) =>
         poke.name.includes(searchText.toLowerCase())
       );
@@ -62,60 +92,41 @@ const Main = () => {
     });
   };
 
-  const details = () => {
-    const pokemonDetailed = poke.detailedPokemon
-      .slice()
-      .find(({ name }) => name === activePokemon);
-
-    console.log(pokemonDetailed);
-    return (
-      <PokemonContainer color={pokemonDetailed.types[0].type.name}>
-        <button
-          onClick={() => {
-            setActivePokemon('');
-            setShowDetailed(false);
-          }}
-        >
-          <img src="/svgs/x.svg" alt="" />
-        </button>
-
-        <PokemonLeft>
-          #{('00' + pokemonDetailed.id).slice(-3)}
-          <img
-            src={
-              pokemonDetailed.sprites.other['official-artwork'].front_default
-            }
-            alt={pokemonDetailed.name}
-          />
-          <span>{_.upperFirst(pokemonDetailed.name)}</span>
-          <div>Height: {pokemonDetailed.height / 10}m</div>
-          <div>Weight: {(pokemonDetailed.weight / 4.53).toFixed(1)}kg</div>
-        </PokemonLeft>
-        <PokemonMiddle>
-          Desc:<div>{pokemonDetailed.desc.flavor_text}</div>
-          Ability:
-          <div>{_.upperFirst(pokemonDetailed.abilities[0].ability.name)}</div>
-        </PokemonMiddle>
-        <PokemonRight>
-          <p>Stats:</p>
-          <div>HP:{pokemonDetailed.stats[0].base_stat}</div>
-          <div>ATK:{pokemonDetailed.stats[1].base_stat}</div>
-          <div>DEF:{pokemonDetailed.stats[2].base_stat}</div>
-          <div>SA:{pokemonDetailed.stats[3].base_stat}</div>
-          <div>SD:{pokemonDetailed.stats[4].base_stat}</div>
-          <div>SPD:{pokemonDetailed.stats[5].base_stat}</div>
-        </PokemonRight>
-      </PokemonContainer>
-    );
-  };
-
   return (
     <Container>
       {showDetailed ? (
-        details()
+        <PokemonCard
+          active={activePokemon}
+          setShowDetailed={setShowDetailed}
+          setActivePokemon={setActivePokemon}
+        />
       ) : (
         <>
           <SearchBar>
+            Generation:
+            <button
+              onClick={() => {
+                setOffsets({ offset: 0, limit: 151 });
+              }}
+            >
+              I
+            </button>
+            <button
+              onClick={() => {
+                setOffsets({ offset: 152, limit: 99 });
+                console.log(offsets);
+              }}
+            >
+              II
+            </button>
+            <button
+              onClick={() => {
+                setOffsets({ offset: 252, limit: 134 });
+                console.log(offsets);
+              }}
+            >
+              III
+            </button>
             Search:
             <input
               type="text"
@@ -146,6 +157,8 @@ const List = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  margin-left: 50px;
+  margin-right: 50px;
 `;
 
 const Card = styled.div`
@@ -155,9 +168,10 @@ const Card = styled.div`
   width: 250px;
   margin: 25px;
   border-radius: 25px;
-  background: rgba(${(props) => typeSwitch(props.color)}, 0.3);
+  background: rgba(${(props) => TypeSwitch(props.color)}, 0.3);
   &:hover {
-    transform: scale(1.1);
+    background: rgba(${(props) => TypeSwitch(props.color)}, 0.4);
+    cursor: pointer;
   }
   img {
     display: flex;
@@ -191,132 +205,16 @@ const Types = styled.div`
   margin-left: 5px;
   margin-top: 10px;
 `;
-const typeSwitch = (type) => {
-  switch (type) {
-    case 'grass':
-      return '0, 171, 20';
-    case 'normal':
-      return '54, 54, 54';
-    case 'fighting':
-      return '143, 0, 14';
-    case 'flying':
-      return '189, 249, 255';
-    case 'poison':
-      return '129, 2, 171';
-    case 'ground':
-      return '122, 47, 24';
-    case 'rock':
-      return '140, 138, 137';
-    case 'bug':
-      return '60, 201, 60';
-    case 'ghost':
-      return '107, 10, 171';
-    case 'steel':
-      return '64, 64, 64';
-    case 'fire':
-      return '255, 25, 25';
-    case 'water':
-      return '56, 129, 255';
-    case 'electric':
-      return '255, 240, 110';
-    case 'psychic':
-      return '188, 99, 247';
-    case 'ice':
-      return '186, 213, 232';
-    case 'dragon':
-      return '117, 72, 57';
-    case 'dark':
-      return '37, 2, 61';
-    case 'fairy':
-      return '247, 240, 171';
-    case 'shadow':
-      return '38, 33, 41';
-    default:
-      return null;
-  }
-};
+
 const Type = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(${(props) => typeSwitch(props.color)}, 1);
+  background: rgba(${(props) => TypeSwitch(props.color)}, 1);
   border-radius: 5px;
   margin-right: 5px;
   width: 120px;
   height: 35px;
 `;
 
-const PokemonContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  width: 900px;
-  height: 600px;
-  background: rgba(${(props) => typeSwitch(props.color)}, 0.4);
-  margin: auto;
-  margin-top: 30px;
-  border-radius: 30px;
-  border: solid rgba(${(props) => typeSwitch(props.color)}, 0.8) 5px;
-  animation: fadeIn 0.5s;
-  button {
-    position: absolute;
-    margin-left: 850px;
-    border: none;
-    background: transparent;
-  }
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    width: 280px;
-    height: 700px;
-    button {
-      margin-left: 240px;
-    }
-  }
-`;
-
-const PokemonLeft = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  border-right: solid rgba(0, 0, 0, 0.4) 3px;
-  font-size: 20px;
-  img {
-    margin-top: 60px;
-    width: 196px;
-    height: 196px;
-  }
-  span {
-    margin-top: 40px;
-    font-weight: 600;
-  }
-  div {
-    margin-top: 20px;
-  }
-  @media (max-width: 768px) {
-    border: none;
-  }
-`;
-const PokemonMiddle = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-
-  margin-left: 5px;
-  margin-right: 5px;
-  font-size: 22px;
-  div {
-    margin-top: 3px;
-    margin-bottom: 20px;
-    font-size: 20px;
-  }
-`;
-const PokemonRight = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  font-size: 22px;
-  p {
-    font-size: 26px;
-  }
-`;
 export default Main;
