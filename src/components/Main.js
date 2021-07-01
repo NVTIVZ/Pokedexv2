@@ -9,6 +9,7 @@ import {
   fetchDetailedPokemon,
   clearDetailed,
 } from '../app/pokeSlice';
+import LoadingScreen from './LoadingScreen';
 
 const Main = () => {
   const [searchText, setSearchText] = useState('');
@@ -66,7 +67,7 @@ const Main = () => {
         .sort((a, b) => a.id - b.id);
       return renderList(sorted);
     }
-    return <div>Loading</div>;
+    return <LoadingScreen />;
   };
 
   const RenderSearch = () => {
@@ -79,7 +80,7 @@ const Main = () => {
       );
       return renderList(filtered);
     }
-    return <div>Loading</div>;
+    return <LoadingScreen />;
   };
 
   const renderTypes = (types) => {

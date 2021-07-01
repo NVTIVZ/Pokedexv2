@@ -5,6 +5,7 @@ import TypeSwitch from '../utils/TypeSwitch';
 import styled from 'styled-components';
 import _ from 'lodash';
 import EvoChain from './EvoChain';
+import LoadingScreen from './LoadingScreen';
 
 const PokemonCard = ({ active, setActivePokemon, setShowDetailed }) => {
   const dispatch = useDispatch();
@@ -61,68 +62,13 @@ const PokemonCard = ({ active, setActivePokemon, setShowDetailed }) => {
           </PokemonContainer>
         </>
       ) : (
-        'Loading'
+        <LoadingScreen />
       )}
     </>
   );
 };
 
 export default PokemonCard;
-
-// const details = () => {
-//   const pokemonDetailed = poke.detailedPokemon
-//     .slice()
-//     .find(({ name }) => name === activePokemon);
-
-//   console.log(pokemonDetailed);
-//   return (
-//     <PokemonContainer color={pokemonDetailed.types[0].type.name}>
-//       <button
-//         onClick={() => {
-//           setActivePokemon('');
-//           setShowDetailed(false);
-//           dispatch(clearEvo());
-//         }}
-//       >
-//         <img src="/svgs/x.svg" alt="" />
-//       </button>
-
-//       <PokemonLeft>
-//         #{('00' + pokemonDetailed.id).slice(-3)}
-//         <img
-//           src={
-//             pokemonDetailed.sprites.other['official-artwork'].front_default
-//           }
-//           alt={pokemonDetailed.name}
-//         />
-//         <span>{_.upperFirst(pokemonDetailed.name)}</span>
-//         <div>Height: {pokemonDetailed.height / 10}m</div>
-//         <div>Weight: {(pokemonDetailed.weight / 4.53).toFixed(1)}kg</div>
-//       </PokemonLeft>
-//       <PokemonMiddle>
-//         Desc:<div>{pokemonDetailed.desc.flavor_text}</div>
-//         Ability:
-//         <div>{_.upperFirst(pokemonDetailed.abilities[0].ability.name)}</div>
-//       </PokemonMiddle>
-//       <PokemonRight>
-//         <p>Stats:</p>
-//         <div>HP:{pokemonDetailed.stats[0].base_stat}</div>
-//         <div>ATK:{pokemonDetailed.stats[1].base_stat}</div>
-//         <div>DEF:{pokemonDetailed.stats[2].base_stat}</div>
-//         <div>SA:{pokemonDetailed.stats[3].base_stat}</div>
-//         <div>SD:{pokemonDetailed.stats[4].base_stat}</div>
-//         <div>SPD:{pokemonDetailed.stats[5].base_stat}</div>
-//       </PokemonRight>
-//       <EvoChainArea>
-//         <span>Evolution Chain</span>
-//         <EvoChain
-//           selectedPoke={pokemonDetailed}
-//           setActivePokemon={setActivePokemon}
-//         />
-//       </EvoChainArea>
-//     </PokemonContainer>
-//   );
-// };
 
 const PokemonContainer = styled.div`
   display: grid;
@@ -167,7 +113,7 @@ const PokemonLeft = styled.div`
   flex-direction: column;
   border-right: solid rgba(0, 0, 0, 0.4) 3px;
   background: rgba(${(props) => TypeSwitch(props.color)}, 0.4);
-  font-size: 20px;
+  font-size: 22px;
   padding-top: 10px;
   border-radius: 25px;
   img {
@@ -191,8 +137,7 @@ const PokemonMiddle = styled.div`
   align-items: center;
   flex-direction: column;
   padding-top: 10px;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 20px;
   font-size: 22px;
   div {
     margin-top: 3px;

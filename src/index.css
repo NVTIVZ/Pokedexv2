@@ -45,3 +45,12 @@ div,h1,h2,h3,h4,h5,h6,header,html,i,img,label,li,nav,p,small,span,ul{
     opacity: 1;
   }
 }
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
