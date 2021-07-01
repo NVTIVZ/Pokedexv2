@@ -10,7 +10,7 @@
 
 ## To-do list
 
--Code cleaning
--Adding filter based on pokemon type
--Loading screen
+-Code cleaning</br>
+-Adding filter based on pokemon type</br>
+-Loading screen</br>
 
