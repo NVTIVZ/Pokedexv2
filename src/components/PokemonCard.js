@@ -136,6 +136,7 @@ const PokemonContainer = styled.div`
   border-radius: 30px;
   border: solid rgba(${(props) => TypeSwitch(props.color)}, 0.8) 5px;
   animation: fadeIn 0.5s;
+  margin-bottom: 150px;
   button {
     position: absolute;
     margin-left: 850px;

@@ -104,29 +104,64 @@ const Main = () => {
         <>
           <SearchBar>
             Generation:
-            <button
-              onClick={() => {
-                setOffsets({ offset: 0, limit: 151 });
-              }}
-            >
-              I
-            </button>
-            <button
-              onClick={() => {
-                setOffsets({ offset: 152, limit: 99 });
-                console.log(offsets);
-              }}
-            >
-              II
-            </button>
-            <button
-              onClick={() => {
-                setOffsets({ offset: 252, limit: 134 });
-                console.log(offsets);
-              }}
-            >
-              III
-            </button>
+            <div>
+              <button
+                onClick={() => {
+                  setOffsets({ offset: 0, limit: 151 });
+                }}
+              >
+                I
+              </button>
+              <button
+                onClick={() => {
+                  setOffsets({ offset: 152, limit: 99 });
+                }}
+              >
+                II
+              </button>
+              <button
+                onClick={() => {
+                  setOffsets({ offset: 251, limit: 135 });
+                }}
+              >
+                III
+              </button>
+              <button
+                onClick={() => {
+                  setOffsets({ offset: 386, limit: 107 });
+                }}
+              >
+                IV
+              </button>
+              <button
+                onClick={() => {
+                  setOffsets({ offset: 493, limit: 156 });
+                }}
+              >
+                V
+              </button>
+              <button
+                onClick={() => {
+                  setOffsets({ offset: 649, limit: 72 });
+                }}
+              >
+                VI
+              </button>
+              <button
+                onClick={() => {
+                  setOffsets({ offset: 721, limit: 88 });
+                }}
+              >
+                VII
+              </button>
+              <button
+                onClick={() => {
+                  setOffsets({ offset: 809, limit: 88 });
+                }}
+              >
+                VIII
+              </button>
+            </div>
             Search:
             <input
               type="text"
@@ -151,6 +186,20 @@ const SearchBar = styled.div`
   justify-content: center;
   font-size: 20px;
   align-items: center;
+  button {
+    border: none;
+    background: #8cc9ff;
+    border-radius: 25%;
+    font-size: 17px;
+    padding: 5px 10px;
+    margin: 0px 5px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const List = styled.div`
