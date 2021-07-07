@@ -1,9 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import styled from 'styled-components';
+
+import {
+  Container,
+  Card,
+  PokemonID,
+  Types,
+  Type,
+  SearchBar,
+  List,
+} from '../styles/mainStyles';
 import _ from 'lodash';
 import PokemonCard from './PokemonCard';
-import TypeSwitch from '../utils/TypeSwitch';
 import {
   fetchPokemons,
   fetchDetailedPokemon,
@@ -15,11 +23,32 @@ const Main = () => {
   const [searchText, setSearchText] = useState('');
   const [showDetailed, setShowDetailed] = useState(false);
   const [activePokemon, setActivePokemon] = useState('');
+  const [activeType, setActiveType] = useState('');
   const [offsets, setOffsets] = useState({
     offset: 0,
     limit: 151,
   });
-  console.log(offsets);
+  const typesList = [
+    'grass',
+    'normal',
+    'fighting',
+    'flying',
+    'poison',
+    'ground',
+    'rock',
+    'bug',
+    'ghost',
+    'steel',
+    'fire',
+    'water',
+    'electric',
+    'psychic',
+    'ice',
+    'dragon',
+    'dark',
+    'fairy',
+    'shadow',
+  ];
   const poke = useSelector((state) => state.poke);
   const dispatch = useDispatch();
 
@@ -65,7 +94,16 @@ const Main = () => {
       const sorted = poke.detailedPokemonList
         .slice()
         .sort((a, b) => a.id - b.id);
-      return renderList(sorted);
+      if (activeType === '') {
+        return renderList(sorted);
+      } else {
+        const sortedByType = sorted.filter(
+          (poke) =>
+            poke.types[0].type.name === activeType ||
+            poke.types[1]?.type?.name === activeType
+        );
+        return renderList(sortedByType);
+      }
     }
     return <LoadingScreen />;
   };
@@ -163,12 +201,24 @@ const Main = () => {
                 VIII
               </button>
             </div>
-            Search:
+            <div>Search:</div>
             <input
               type="text"
               value={searchText}
               onChange={(e) => onSearch(e)}
             />
+            <div>Select Type:</div>
+            <select
+              onChange={(e) => setActiveType(e.target.value)}
+              value={activeType}
+            >
+              <option value="">All Types</option>
+              {typesList.map((type) => (
+                <option value={type} key={type}>
+                  {_.upperFirst(type)}
+                </option>
+              ))}
+            </select>
           </SearchBar>
 
           <List>{searchText === '' ? RenderDefault() : RenderSearch()}</List>
@@ -177,94 +227,5 @@ const Main = () => {
     </Container>
   );
 };
-
-const Container = styled.div`
-  padding: 0px;
-`;
-
-const SearchBar = styled.div`
-  display: flex;
-  justify-content: center;
-  font-size: 20px;
-  align-items: center;
-  button {
-    border: none;
-    background: #8cc9ff;
-    border-radius: 25%;
-    font-size: 17px;
-    padding: 5px 10px;
-    margin: 0px 5px;
-    &:hover {
-      cursor: pointer;
-    }
-  }
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
-`;
-
-const List = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin-left: 50px;
-  margin-right: 50px;
-`;
-
-const Card = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 350px;
-  width: 250px;
-  margin: 25px;
-  border-radius: 25px;
-  background: rgba(${(props) => TypeSwitch(props.color)}, 0.3);
-  &:hover {
-    background: rgba(${(props) => TypeSwitch(props.color)}, 0.4);
-    cursor: pointer;
-  }
-  img {
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-    width: 196px;
-    padding-top: 20px;
-  }
-  span {
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    padding-top: 15px;
-    font-size: 20px;
-    font-weight: 600;
-  }
-
-  @media (max-width: 768px) {
-    margin: 10px;
-  }
-`;
-
-const PokemonID = styled.div`
-  display: flex;
-  margin-left: 15px;
-`;
-
-const Types = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  margin-left: 5px;
-  margin-top: 10px;
-`;
-
-const Type = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(${(props) => TypeSwitch(props.color)}, 1);
-  border-radius: 5px;
-  margin-right: 5px;
-  width: 120px;
-  height: 35px;
-`;
 
 export default Main;

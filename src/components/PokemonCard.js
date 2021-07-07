@@ -85,7 +85,6 @@ const PokemonContainer = styled.div`
   margin-bottom: 150px;
   button {
     position: absolute;
-    margin-left: 850px;
     border: none;
     background: transparent;
     &:hover {
@@ -98,10 +97,9 @@ const PokemonContainer = styled.div`
   @media (max-width: 768px) {
     display: flex;
     flex-direction: column;
-    width: 350px;
-    height: 1500px;
+    width: auto;
+    height: auto;
     button {
-      margin-left: 240px;
     }
   }
 `;
