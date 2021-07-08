@@ -2,41 +2,7 @@ import styled from 'styled-components';
 import TypeSwitch from '../utils/TypeSwitch';
 export const Container = styled.div`
   padding: 0px;
-`;
-
-export const SearchBar = styled.div`
-  display: flex;
-  justify-content: center;
-  font-size: 20px;
-  align-items: center;
-  button {
-    border: none;
-    background: #8cc9ff;
-    border-radius: 25%;
-    font-size: 17px;
-    padding: 5px 10px;
-    margin: 0px 5px;
-    &:hover {
-      cursor: pointer;
-    }
-  }
-  div {
-    margin-left: 10px;
-  }
-  input {
-    font-family: inherit;
-    border-radius: 4px;
-    height: 25px;
-  }
-  select {
-    font-family: inherit;
-    border-radius: 4px;
-    height: 30px;
-    width: 130px;
-  }
-  @media (max-width: 1168px) {
-    flex-direction: column;
-  }
+  min-height: 84vh;
 `;
 
 export const List = styled.div`
@@ -45,6 +11,7 @@ export const List = styled.div`
   justify-content: space-around;
   margin-left: 50px;
   margin-right: 50px;
+  padding-bottom: 100px;
 `;
 
 export const Card = styled.div`

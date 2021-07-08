@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { Container } from '../styles/headerStyles';
 
 const Header = () => {
   return (
@@ -7,14 +7,5 @@ const Header = () => {
     </Container>
   );
 };
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 25px;
-  margin-bottom: 15px;
-  background: #4287f5;
-  box-sizing: inherit;
-`;
 
 export default Header;

@@ -6,9 +6,17 @@ body {
 body,html,#root{
   background-color: #f5f5f5;
   box-sizing: border-box;
+  min-height: 100%;
+  position: relative;
   margin:0;
   font-family: 'PKMN RBYGSC';
   font-size:18px;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
 
 div,h1,h2,h3,h4,h5,h6,header,html,i,img,label,li,nav,p,small,span,ul{

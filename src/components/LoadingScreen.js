@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { Loading } from '../styles/loadingScreenStyles';
 
 const LoadingScreen = () => {
   return (
@@ -8,17 +8,5 @@ const LoadingScreen = () => {
     </Loading>
   );
 };
-
-const Loading = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 75vh;
-  img {
-    width: 128px;
-    animation: rotation 2s infinite linear;
-  }
-`;
 
 export default LoadingScreen;

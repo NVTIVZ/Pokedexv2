@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchEvoPokemon } from '../app/pokeSlice';
-import styled from 'styled-components';
+import { ArrowImg, EvolutionImg } from '../styles/evoChainStyles';
 import React from 'react';
 const EvoChain = ({ active, setActivePokemon }) => {
   const poke = useSelector((state) => state.poke);
@@ -65,56 +65,4 @@ const EvoChain = ({ active, setActivePokemon }) => {
   return <>{renderEvoChain()}</>;
 };
 
-const EvolutionImg = styled.img`
-  width: 148px;
-  height: 148px;
-  background: white;
-  border-radius: 25%;
-  &:hover {
-    cursor: pointer;
-  }
-`;
-
-const ArrowImg = styled.img`
-  width: 48px;
-`;
-
 export default EvoChain;
-
-/* <>
-<div>
-  <EvolutionImg
-    src={sprite1.other['official-artwork'].front_default}
-    onClick={() => setActivePokemon(selectedPoke.chain.species.name)}
-    alt=""
-  />
-</div>
-<div>
-  <ArrowImg src="/svgs/arrow-right.svg" />
-</div>
-
-<div>
-  <EvolutionImg
-    src={sprite2.other['official-artwork'].front_default}
-    onClick={() =>
-      setActivePokemon(selectedPoke.chain.evolves_to[0].species.name)
-    }
-    alt=""
-  />
-</div>
-<div>
-  <ArrowImg src="/svgs/arrow-right.svg" />
-</div>
-
-<div>
-  <EvolutionImg
-    src={sprite3.other['official-artwork'].front_default}
-    onClick={() =>
-      setActivePokemon(
-        selectedPoke.chain.evolves_to[0].evolves_to[0].species.name
-      )
-    }
-    alt=""
-  />
-</div>
-</> */
