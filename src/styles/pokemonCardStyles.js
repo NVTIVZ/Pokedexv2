@@ -3,8 +3,13 @@ import TypeSwitch from '../utils/TypeSwitch';
 
 export const Area = styled.div`
   position: relative;
-  height: 85vh;
   padding-top: 30px;
+  @media (min-width: 768px) {
+    height: 85vh;
+  }
+  @media (max-width: 768px) {
+    padding-bottom: 80px;
+  }
 `;
 export const PokemonContainer = styled.div`
   display: grid;
@@ -36,7 +41,7 @@ export const PokemonContainer = styled.div`
     width: 350px;
     height: auto;
     button {
-      margin-left: 300px;
+      margin-left: 290px;
     }
   }
 `;
